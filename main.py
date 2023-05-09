@@ -1,5 +1,3 @@
-import csv
-
 import pandas as pd
 df_winter = pd.read_csv("folder_csv/winter.csv")
 df_summer = pd.read_csv("folder_csv/summer.csv")
@@ -32,9 +30,14 @@ country_info = new_df.groupby(['Code', 'Population', 'GDP per Capita', 'season',
 print(country_info)
 
 win_table = df_general.groupby(['Code', 'season', "Discipline"])['win'].count().reset_index()
-max_win = win_table.groupby(['Code', 'season'])['win'].max().reset_index()
 
-new_table = pd.merge(country_info, max_win, on=['Code', 'season'])
-country_info.to_excel('table_excel.xlsx')
-country_info.to_excel('pandas_excel.xlsx')
-# df_medals.to_excel('pandas_medals_info.xlsx')
+max_win = win_table.groupby(['Code', 'season', "Discipline"])['win'].max().reset_index()
+max_wins = win_table.groupby(['Code', 'Discipline', 'season'])['win'].sum().reset_index()
+idx = max_wins.groupby(['Code', 'season'])['win'].idxmax()
+table_results = max_wins.loc[idx, ['Code', 'season', 'Discipline', 'win']].reset_index()
+
+new_table = pd.merge(df_medals, table_results, on=['Code'])
+new_table.drop('index', axis=1, inplace=True)
+new_table.rename(columns={'Discipline': 'top_discipline', 'win': 'number_of_victories_in_top_discipline'}, inplace=True)
+new_table.to_excel('pandas_excel.xlsx')
+df_medals.to_excel('pandas_medals_info.xlsx')
