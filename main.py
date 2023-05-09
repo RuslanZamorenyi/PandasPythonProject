@@ -1,4 +1,6 @@
 import pandas as pd
+
+
 df_winter = pd.read_csv("folder_csv/winter.csv")
 df_summer = pd.read_csv("folder_csv/summer.csv")
 df_main = pd.read_csv("folder_csv/dictionary.csv")
