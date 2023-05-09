@@ -23,11 +23,8 @@ df_general['win'] = 1
 
 df_medals = new_df.groupby(['Code', 'Country', 'Population'])['number_medals'].count().reset_index()
 df_medals['percentage_of_medalists'] = df_medals['number_medals'] / df_medals['Population'] * 100
-print(df_medals)
-
 
 country_info = new_df.groupby(['Code', 'Population', 'GDP per Capita', 'season', 'Medal'])['number_medals'].count()
-print(country_info)
 
 win_table = df_general.groupby(['Code', 'season', "Discipline"])['win'].count().reset_index()
 
@@ -39,5 +36,6 @@ table_results = max_wins.loc[idx, ['Code', 'season', 'Discipline', 'win']].reset
 new_table = pd.merge(df_medals, table_results, on=['Code'])
 new_table.drop('index', axis=1, inplace=True)
 new_table.rename(columns={'Discipline': 'top_discipline', 'win': 'number_of_victories_in_top_discipline'}, inplace=True)
+
 new_table.to_excel('pandas_excel.xlsx')
 df_medals.to_excel('pandas_medals_info.xlsx')
