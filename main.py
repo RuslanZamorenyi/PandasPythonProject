@@ -40,4 +40,4 @@ new_table.drop('index', axis=1, inplace=True)
 new_table.rename(columns={'Discipline': 'top_discipline', 'win': 'number_of_victories_in_top_discipline'}, inplace=True)
 
 new_table.to_excel('pandas_excel.xlsx')
-df_medals.to_excel('pandas_medals_info.xlsx')
+country_info.to_excel('pandas_medals_info.xlsx')
